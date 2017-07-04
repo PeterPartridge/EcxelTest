@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,7 +16,6 @@ namespace EcxelTest
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             var itemsList = play();
         }
         public List<MyItems> play()
@@ -49,20 +49,19 @@ namespace EcxelTest
             //close the workbook
             wkbook.Close();
             //exit the excel applicaiton
+            
             exclApp.Quit();
+            Marshal.ReleaseComObject(wkSheet);
+            Marshal.ReleaseComObject(wkbook);
+            Marshal.ReleaseComObject(exclApp);
+            exclApp = null;
             return items;
         }
 
-
         public class MyItems
         {
-
-
             public string Thingy { get; set; }
             public string Thingy2 { get; set; }
-
-
-
         }
 
 
