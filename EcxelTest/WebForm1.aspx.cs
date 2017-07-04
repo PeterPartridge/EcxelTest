@@ -20,22 +20,35 @@ namespace EcxelTest
         }
         public List<MyItems> play()
         {
+            //list of the object myItems 
             List<MyItems> items = new List<MyItems>();
+            // open the excel application
             Excel.Application exclApp = new Microsoft.Office.Interop.Excel.Application();
+            //open a workbook in a defined file path.
             Excel.Workbook wkbook = exclApp.Workbooks.Open("D:/Coding/excelTest.xlsx");
+            // this will open the first worksheet
             Excel._Worksheet wkSheet = wkbook.Worksheets[1];
+            //get the range of used cells
             Excel.Range usedRange = wkSheet.UsedRange;
+            //get max number of rows
             int rowCounter = usedRange.Rows.Count;
+            //get max number of columns 
             int colCounter = usedRange.Columns.Count;
+            //this will start on the second row of the excel sheet and expect their to be a heading
             int rowCount = 2;
+            //start on the first column
             int colCount = 1;
+            //loopiung through rows.
             while (rowCount <= rowCounter)
             {
                 items.Add(new MyItems { Thingy = usedRange.Cells[rowCount, colCount].Value.ToString(), Thingy2 = (usedRange.Cells[rowCount, colCount += 1].Value == null) ? "Empty" : usedRange.Cells[rowCount, colCount].Value.ToString() });
+                
                 rowCount++;
                 colCount = 1;
             }
+            //close the workbook
             wkbook.Close();
+            //exit the excel applicaiton
             exclApp.Quit();
             return items;
         }
